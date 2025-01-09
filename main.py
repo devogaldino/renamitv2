@@ -4,38 +4,38 @@ import re
 
 def slugify(text):
     """
-    Converte um texto para um formato de slug amigável para URLs.
+    Converts text to a URL-friendly slug format.
     """
     text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
     text = re.sub(r'[^\w\s-]', '', text).strip().lower()
     return re.sub(r'[\s_-]+', '-', text)
 
-def renomear_arquivos_pasta(caminho_pasta):
+def rename_files_folder(file_path):
     """
-    Renomeia todos os arquivos na pasta aplicando um slug aos seus nomes.
+    Renames all files in the folder by applying a slug to their names.
 
     Args:
-        caminho_pasta (str): Caminho da pasta que contém os arquivos.
+        file_path (str): Path of the folder containing the files.
     """
-    if not os.path.isdir(caminho_pasta):
-        print(f"Erro: {caminho_pasta} não é uma pasta válida.")
+    if not os.path.isdir(file_path):
+        print(f"Error: {file_path} is not a valid folder.")
         return
 
-    for nome_arquivo in os.listdir(caminho_pasta):
-        caminho_completo = os.path.join(caminho_pasta, nome_arquivo)
+    for file_name in os.listdir(file_path):
+        complete_path = os.path.join(file_path, file_name)
 
-        if os.path.isfile(caminho_completo):
-            nome, extensao = os.path.splitext(nome_arquivo)
-            nome_slug = slugify(nome)
-            novo_nome = f"{nome_slug}{extensao}"
-            novo_caminho = os.path.join(caminho_pasta, novo_nome)
+        if os.path.isfile(complete_path):
+            name, ext = os.path.splitext(file_name)
+            name_slug = slugify(name)
+            new_name = f"{name_slug}{ext}"
+            new_path = os.path.join(file_path, new_name)
 
             try:
-                os.rename(caminho_completo, novo_caminho)
-                print(f"Renomeado: {nome_arquivo} -> {novo_nome}")
+                os.rename(complete_path, new_path)
+                print(f"Renamed: {file_name} -> {new_name}")
             except Exception as e:
-                print(f"Erro ao renomear {nome_arquivo}: {e}")
+                print(f"Error to rename {file_name}: {e}")
 
 # Exemplo de uso
-caminho = input("Digite o caminho da pasta: ")
-renomear_arquivos_pasta(caminho)
+enter_path = input("Enter the folder path: ")
+rename_files_folder(enter_path)
